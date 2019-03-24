@@ -1,0 +1,14 @@
+selenium
+beautifulsoup4
+pandas
+#airflow
+apache-airflow
+#airflow[postgres]
+# psycopg2
+#psycopg2-binary
+#airflow[celery]
+#cryptography
+#airflow[crypto]
+#airflow[password]
+Elasticsearch
+pendulum
