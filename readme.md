@@ -1,36 +1,54 @@
 # Zaim Analysis Platform
+ [inTheRye/zaim-analysis-platform](https://github.com/inTheRye/zaim-analysis-platform) をフォークして、自分用にアレンジしています。
 
-Zaim.net の家計簿データを定期的にスクレイプしてきて、elasticsearchに突っ込んで、kibanaで描画するためのdockerプラットフォームです。
+ 主な変更点
 
-![system_config](images/system_config.png)
+- Airflowのバージョンアップ: サポート外バージョン → 1.10.2 (ベースイメージ: [zhongjiajie](https://github.com/zhongjiajie)/[**docker-airflow**](https://github.com/zhongjiajie/docker-airflow))
+- Airflowのアーキテクチャ変更: Celery → Local
+- Elasticsearch/Kibanaのバージョンアップ: 5.5.2 → 6.6.2
+- スクレイピングに用いるSeleniumで使用するブラウザの変更: PhantomJS (サポート外) → Chrome
+- 上記に伴って、Selenium Standaloneサーバー用Dockerコンテナの追加
+- ElasticsearchにZaimのデータをストアするときにドキュメントのインデックスの追加 (追加項目は下記の通り)
+  - “payment_income”: 支払 (“payment”)、収入(“income”)、振替(“transfer”)
+  - “year”: 年
+  - “month”: 月
+
+
+
+# Zaim Analysis Platform
+
+zaim.net の家計簿データを定期的にスクレイプしてきて、Elasticsearchに突っ込んで、Kibanaで描画するためのDockerプラットフォームです。
+
+![System Architecture](images/system_architecture.png)
 
 ## Getting Started
 
-自身のZaim.netのID,PASS,スクレイピングしたい家計簿データの開始日を書き込んだconfig.ymlファイルを作り、dockerコンテナを起動する。
+**Zaim用のコンフィグの作成**
+自身のzaim.netのID、PASS、スクレイピングしたい家計簿データの開始日を書き込んだ `config.yml` ファイルを `airflow/app/` に作ります。
 
-```{bash}
-$ echo 'ID: "your_user_id"' > py_scraping/app/config.yml
-$ echo 'PASS: "your_password"' >> py_scraping/app/config.yml
-$ echo 'START_DATE: "2016-1-1"' >> py_scraping/app/config.yml
-$ docker-compose up -d
-$ docker-compose logs
-```
+    $ echo 'ID: "your_user_id"' > airflow/app/config.yml
+    $ echo 'PASS: "your_password"' >> airflow/app/config.yml
+    $ echo 'START_DATE: "2018-1-1"' >> airflow/app/config.yml
 
-スケジュールされたジョブが上手く実行できない場合、dagのstart_dateを修正する。
+**コンテナの実行**
+docker-composeで必要なコンテナを起動します。
 
-```{bash}
-$ date=`date +"%Y, %m, %-d, 00, 00, 00"` && sed -i '' 's/datetime.today()/datetime('$date')/g' py_scraping/dags/zaim.py
-```
+    $ docker-compose up -d
 
-http://localhost:8080 でairflowにアクセス。
+**Airflowでのジョブの設定**
+http://localhost:8080 でAirflowにアクセスします。
 
-![system_config](images/airflow_image.png)
+![Airflow Web UI](images/airflow_image.png)
 
-http://localhost:5601 でkibanaにアクセス。
-zaim* の Index Pattern を作って、あとは適当にビジュアライズする。
 
-![system_config](images/kibana_image.png)
+初期設定では毎日0:00 UTC (09:00 JST)にデータの更新を行います。取得データが多い場合にはデータの取得に数分かかることがあります。
+
+**kibanaの初期設定**
+http://localhost:5601 でKibanaにアクセスします。
+zaim* の Index Pattern を作って、あとは適当にビジュアライズします。
+
+![Kibana Vizualize](images/kibana_image.png)
 
 ## License
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details
+This project is licensed under the Apache License 2.0 - see the [LICENSE](#) file for details
