@@ -24,18 +24,26 @@ zaim.net の家計簿データを定期的にスクレイプしてきて、Elast
 ## Getting Started
 
 **Zaim用のコンフィグの作成**
+
+
 自身のzaim.netのID、PASS、スクレイピングしたい家計簿データの開始日を書き込んだ `config.yml` ファイルを `airflow/app/` に作ります。
 
     $ echo 'ID: "your_user_id"' > airflow/app/config.yml
     $ echo 'PASS: "your_password"' >> airflow/app/config.yml
     $ echo 'START_DATE: "2018-1-1"' >> airflow/app/config.yml
 
+
 **コンテナの実行**
+
+
 docker-composeで必要なコンテナを起動します。
 
     $ docker-compose up -d
 
+
 **Airflowでのジョブの設定**
+
+
 http://localhost:8080 でAirflowにアクセスします。
 
 ![Airflow Web UI](images/airflow_image.png)
@@ -44,6 +52,8 @@ http://localhost:8080 でAirflowにアクセスします。
 初期設定では毎日0:00 UTC (09:00 JST)にデータの更新を行います。取得データが多い場合にはデータの取得に数分かかることがあります。
 
 **kibanaの初期設定**
+
+
 http://localhost:5601 でKibanaにアクセスします。
 zaim* の Index Pattern を作って、あとは適当にビジュアライズします。
 
