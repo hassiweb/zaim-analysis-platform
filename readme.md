@@ -12,6 +12,8 @@
   - “payment_income”: 支払 (“payment”)、収入(“income”)、振替(“transfer”)
   - “year”: 年
   - “month”: 月
+  
+変更点の詳細は[こちら](https://hassiweb-programming.blogspot.com/2019/03/zaim-analysis-platform.html)をご覧ください。
 
 
 
@@ -58,6 +60,8 @@ http://localhost:5601 でKibanaにアクセスします。
 zaim* の Index Pattern を作って、あとは適当にビジュアライズします。
 
 ![Kibana Vizualize](images/kibana_image.png)
+
+[こちら](https://hassiweb-programming.blogspot.com/2019/03/zaim-kibana-examples.html)でビジュアライズの例をいくつか紹介しています。
 
 ## License
 
