@@ -1,6 +1,6 @@
-# Zaim Analysis Platform
+# [Readme] Zaim Analysis Platform
  [inTheRye/zaim-analysis-platform](https://github.com/inTheRye/zaim-analysis-platform) をフォークして、自分用にアレンジしています。
-
+ 
  主な変更点
 
 - Airflowのバージョンアップ: サポート外バージョン → 1.10.2 (ベースイメージ: [zhongjiajie](https://github.com/zhongjiajie)/[**docker-airflow**](https://github.com/zhongjiajie/docker-airflow))
@@ -13,11 +13,15 @@
   - “year”: 年
   - “month”: 月
 
+変更点の詳細は下記の私のブログでまとめていますのでこちらをご覧ください。
 
+- [**家計簿アプリZaimデータの分析・可視化基盤を作った話**](http://hassiweb-programming.blogspot.com/2019/03/zaim-analysis-platform.html)
+
+ 
 
 # Zaim Analysis Platform
 
-zaim.net の家計簿データを定期的にスクレイプしてきて、Elasticsearchに突っ込んで、Kibanaで描画するためのDockerプラットフォームです。
+zaim.net の家計簿データを定期的にスクレイピングし、Elasticsearchに保存し、Kibanaで描画するためのDockerコンテナ群で構成されるプラットフォームです。
 
 ![System Architecture](images/system_architecture.png)
 
@@ -38,17 +42,36 @@ docker-composeで必要なコンテナを起動します。
 **Airflowでのジョブの設定**
 http://localhost:8080 でAirflowにアクセスします。
 
-![Airflow Web UI](images/airflow_image.png)
+![Airflow Image](images/airflow_image.png)
 
 
-初期設定では毎日0:00 UTC (09:00 JST)にデータの更新を行います。取得データが多い場合にはデータの取得に数分かかることがあります。
+上の赤枠のところが "Off" の状態ではタスクの実行は行われませんので "On" にします。
 
-**kibanaの初期設定**
+なお、初期設定では毎日0:00 JST (15:00 UTC)にZaimデータ更新のタスクを実行します。即座にデータ更新したい場合には下の赤枠の "Trigger Now" をクリックするとタスクが実行されます。
+
+![Airflow Trigger Now](images/airflow_trigger.png)
+
+なお、取得データが多い場合にはデータの取得に数分かかることがありますので、画面を更新して "Recent Tasks” が "Success" になればタスクの実行が終了し、Zaimデータの更新が完了しています。
+
+**Kibanaの初期設定**
 http://localhost:5601 でKibanaにアクセスします。
-zaim* の Index Pattern を作って、あとは適当にビジュアライズします。
+まず初めに、Kibanaで使用するIndex Patternを作る必要があります。
+下のように **zaim*** を読み込ませれば、Elasticsearchからデータを読み出してIndex Patternを作ってくれます。
 
-![Kibana Vizualize](images/kibana_image.png)
+![Kibana creating index pattern](images/kibana_index_pattern.png)
+
+あとはKibanaのVizualizeから表示したい項目を適当に可視化します。
+
+![system_config](images/kibana_image.png)
+
+
+データがない！となっているときがありますが画面右上の検索期間短くなっている可能性があります。デフォルトでは直近15分になっていますので、データがありそうな期間に変更していください。
+
+どのように可視化するのかわからない方は私のブログでいくつかの例をまとめていますのでそちらもご参考にしてください。
+
+- [**家計簿アプリZaimデータの分析・可視化基盤でのKibanaを使った分析例**](https://hassiweb-programming.blogspot.com/2019/03/zaim-kibana-examples.html)
 
 ## License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](#) file for details
+
