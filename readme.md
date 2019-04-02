@@ -58,7 +58,7 @@ http://localhost:8080 でAirflowにアクセスします。
 
 なお、初期設定では毎日0:00 JST (15:00 UTC)にZaimデータ更新のタスクを実行します。即座にデータ更新したい場合には赤枠の "Trigger Now" をクリックするとタスクが実行されます。
 
-![Airflow Trriger Now](images/airflwo_trigger.png)
+![Airflow Trriger Now](images/airflow_trigger.png)
 
 
 
