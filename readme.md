@@ -13,7 +13,6 @@
   - “year”: 年
   - “month”: 月
   
-変更点の詳細は[こちら](https://hassiweb-programming.blogspot.com/2019/03/zaim-analysis-platform.html)をご覧ください。
 
 変更点の詳細は下記の私のブログでまとめていますのでこちらをご覧ください。
 
@@ -57,7 +56,11 @@ http://localhost:8080 でAirflowにアクセスします。
 
 上の赤枠のところが "Off" の状態ではタスクの実行は行われませんので "On" にします。
 
-なお、初期設定では毎日0:00 JST (15:00 UTC)にZaimデータ更新のタスクを実行します。即座にデータ更新したい場合には下の赤枠の "Trigger Now" をクリックするとタスクが実行されます。
+なお、初期設定では毎日0:00 JST (15:00 UTC)にZaimデータ更新のタスクを実行します。即座にデータ更新したい場合には赤枠の "Trigger Now" をクリックするとタスクが実行されます。
+
+![Airflow Trriger Now](images/airflwo_trigger.png)
+
+
 
 **kibanaの初期設定**
 
@@ -79,7 +82,7 @@ http://localhost:5601 でKibanaにアクセスします。
 
 - [**家計簿アプリZaimデータの分析・可視化基盤でのKibanaを使った分析例**](https://hassiweb-programming.blogspot.com/2019/03/zaim-kibana-examples.html)
 
-[こちら](https://hassiweb-programming.blogspot.com/2019/03/zaim-kibana-examples.html)でビジュアライズの例をいくつか紹介しています。
+
 
 ## License
 
