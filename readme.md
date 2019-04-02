@@ -1,4 +1,4 @@
-# [Readme] Zaim Analysis Platform
+# Zaim Analysis Platform
  [inTheRye/zaim-analysis-platform](https://github.com/inTheRye/zaim-analysis-platform) をフォークして、自分用にアレンジしています。
  
  主な変更点
@@ -12,6 +12,8 @@
   - “payment_income”: 支払 (“payment”)、収入(“income”)、振替(“transfer”)
   - “year”: 年
   - “month”: 月
+  
+変更点の詳細は[こちら](https://hassiweb-programming.blogspot.com/2019/03/zaim-analysis-platform.html)をご覧ください。
 
 変更点の詳細は下記の私のブログでまとめていますのでこちらをご覧ください。
 
@@ -28,18 +30,26 @@ zaim.net の家計簿データを定期的にスクレイピングし、Elastics
 ## Getting Started
 
 **Zaim用のコンフィグの作成**
+
+
 自身のzaim.netのID、PASS、スクレイピングしたい家計簿データの開始日を書き込んだ `config.yml` ファイルを `airflow/app/` に作ります。
 
     $ echo 'ID: "your_user_id"' > airflow/app/config.yml
     $ echo 'PASS: "your_password"' >> airflow/app/config.yml
     $ echo 'START_DATE: "2018-1-1"' >> airflow/app/config.yml
 
+
 **コンテナの実行**
+
+
 docker-composeで必要なコンテナを起動します。
 
     $ docker-compose up -d
 
+
 **Airflowでのジョブの設定**
+
+
 http://localhost:8080 でAirflowにアクセスします。
 
 ![Airflow Image](images/airflow_image.png)
@@ -49,11 +59,9 @@ http://localhost:8080 でAirflowにアクセスします。
 
 なお、初期設定では毎日0:00 JST (15:00 UTC)にZaimデータ更新のタスクを実行します。即座にデータ更新したい場合には下の赤枠の "Trigger Now" をクリックするとタスクが実行されます。
 
-![Airflow Trigger Now](images/airflow_trigger.png)
+**kibanaの初期設定**
 
-なお、取得データが多い場合にはデータの取得に数分かかることがありますので、画面を更新して "Recent Tasks” が "Success" になればタスクの実行が終了し、Zaimデータの更新が完了しています。
 
-**Kibanaの初期設定**
 http://localhost:5601 でKibanaにアクセスします。
 まず初めに、Kibanaで使用するIndex Patternを作る必要があります。
 下のように **zaim*** を読み込ませれば、Elasticsearchからデータを読み出してIndex Patternを作ってくれます。
@@ -70,6 +78,8 @@ http://localhost:5601 でKibanaにアクセスします。
 どのように可視化するのかわからない方は私のブログでいくつかの例をまとめていますのでそちらもご参考にしてください。
 
 - [**家計簿アプリZaimデータの分析・可視化基盤でのKibanaを使った分析例**](https://hassiweb-programming.blogspot.com/2019/03/zaim-kibana-examples.html)
+
+[こちら](https://hassiweb-programming.blogspot.com/2019/03/zaim-kibana-examples.html)でビジュアライズの例をいくつか紹介しています。
 
 ## License
 
