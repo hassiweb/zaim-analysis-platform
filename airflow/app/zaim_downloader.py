@@ -48,8 +48,7 @@ class ZaimDownLoader(object):
                           "amount", "from_account", "to_account", "place",
                           "name", "comment"]
 
-        df_rev['genre'] = df_rev['genre'].apply(lambda x:
-                                                str(x).split('\n')[1])
+        df_rev['genre'] = df_rev['genre'].apply(lambda x:str(x).split('\n')[1])
 
         # remove not_aggregated amount
         df_rev = df_rev[df_rev['aggregate'] == 'add_circle_outline']
@@ -100,6 +99,15 @@ class ZaimDownLoader(object):
             html = BeautifulSoup(page, 'lxml')
         except:
             html = BeautifulSoup(page, 'html5lib')
+
+        # if there are more lists of expenses, click it to get more
+        if html.find('tr', class_='js-more-list') != None:
+            self.driver.find_element_by_xpath('//*[@id="main"]/div[2]/div/div[5]/table/tbody/tr[201]/td/a').click()
+            page = self.driver.page_source  # more sophisticated methods may be available
+            try:
+                html = BeautifulSoup(page, 'lxml')
+            except:
+                html = BeautifulSoup(page, 'html5lib')
 
         table = html.find('table', attrs={'class': 'list'})
 
