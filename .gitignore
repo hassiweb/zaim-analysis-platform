@@ -2,3 +2,8 @@
 ./py_scrape/app/config.yml
 ./py_scrape/app/ghostdriver.log
 ./py_scrape/dags/__pycache__/
+./trashcan
+.vscode
+*.swp
+*.old
+airflow/app/config.yml

@@ -101,9 +101,13 @@ class ZaimDownLoader(object):
             html = BeautifulSoup(page, 'html5lib')
 
         # if there are more lists of expenses, click it to get more
-        if html.find('tr', class_='js-more-list') != None:
-            self.driver.find_element_by_xpath('//*[@id="main"]/div[2]/div/div[5]/table/tbody/tr[201]/td/a').click()
+        while html.find('tr', class_='js-more-list') != None:
+        # if html.find('tr', attrs={'class': 'js-more-list'}) != None:
+            # self.driver.find_element_by_link_text('もっと見る').click()
+            self.driver.find_element_by_xpath('//*[@id="main"]/div[2]/div/div[5]/table/tbody/tr[201]/td/a/i').click()
+            time.sleep(5)
             page = self.driver.page_source  # more sophisticated methods may be available
+            print("Expand a page")
             try:
                 html = BeautifulSoup(page, 'lxml')
             except:
@@ -156,7 +160,7 @@ class ZaimDownLoader(object):
         data = []
         table_body = table.find('tbody')
         rows = table_body.find_all('tr')
-        for row in rows[1:-3]:  # skip the empty header row and summary row
+        for row in rows:
             cols_rev = []
             cols = row.find_all('td')
             for ele in cols:
