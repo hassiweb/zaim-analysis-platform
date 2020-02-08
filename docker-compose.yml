@@ -6,8 +6,9 @@ services:
     image: selenium/standalone-chrome:3.141.59-lithium
     volumes:
       - /dev/shm:/dev/shm
-    ports:
-      - "4444:4444"
+# Uncomment if you need to access Selenium 
+#    ports:
+#      - "4444:4444"
     restart: always
 
   elasticsearch:
@@ -15,9 +16,10 @@ services:
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - esdata:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
-      - "9300:9300"
+# Uncomment if you need to access Elasticsearch
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
     environment:
       - discovery.type=single-node
     restart: always
@@ -51,7 +53,7 @@ services:
        - ./airflow/dags:/usr/local/airflow/dags
        - ./airflow/app:/usr/local/airflow/app
     ports:
-      - "8080:8080"
+      - "18080:8080"
     command: webserver
     healthcheck:
       test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]

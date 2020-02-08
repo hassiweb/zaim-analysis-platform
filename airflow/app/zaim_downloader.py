@@ -73,7 +73,8 @@ class ZaimDownLoader(object):
 
         print("Storing data into Elasticsearch")
         # conntect es
-        es = Elasticsearch([{'host': '192.168.0.20', 'port': '9200'}])
+        es = Elasticsearch([{'host': 'elasticsearch', 'port': '9200'}])
+        #es = Elasticsearch([{'host': '192.168.0.20', 'port': '9200'}])
         # delete index if exists
         if es.indices.exists('zaim'):
             es.indices.delete(index='zaim')
@@ -102,9 +103,7 @@ class ZaimDownLoader(object):
 
         # if there are more lists of expenses, click it to get more
         while html.find('tr', class_='js-more-list') != None:
-        # if html.find('tr', attrs={'class': 'js-more-list'}) != None:
-            # self.driver.find_element_by_link_text('もっと見る').click()
-            self.driver.find_element_by_xpath('//*[@id="main"]/div[2]/div/div[5]/table/tbody/tr[201]/td/a/i').click()
+            self.driver.find_element_by_partial_link_text('もっと見る').click()
             time.sleep(5)
             page = self.driver.page_source  # more sophisticated methods may be available
             print("Expand a page")
